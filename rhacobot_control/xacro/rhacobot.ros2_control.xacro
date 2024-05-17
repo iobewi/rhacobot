@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+    <!-- parameters -->
+  <xacro:arg name="ifname" default="can0" />
+
+  <xacro:include filename="$(find rhacobot_control)/xacro/mobile_base.ros2_control.xacro" />
+  <xacro:include filename="$(find rhacobot_control)/xacro/tail.ros2_control.xacro" />
+
+  <xacro:mobile_base_ros2_control ifname="$(arg ifname)" use_gazebo="$(arg use_gazebo)"/>
+  <xacro:tail_ros2_control ifname="$(arg ifname)" use_gazebo="$(arg use_gazebo)"/>
+
+</robot>

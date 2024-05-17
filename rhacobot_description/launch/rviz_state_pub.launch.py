@@ -12,19 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+import os
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+)
 from launch.conditions import IfCondition
-from launch.event_handlers import OnProcessExit
 from launch.substitutions import (
-    Command, 
-    FindExecutable, 
+    Command,
+    FindExecutable,
     LaunchConfiguration,
-    PathJoinSubstitution, 
-    )
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+    PathJoinSubstitution,
+)
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from ament_index_python.packages import get_package_share_directory
+
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
@@ -52,18 +59,18 @@ def generate_launch_description():
                     "urdf",
                     "rhacobot.urdf.xacro",
                 ]
-            )
-        ] 
-    ) 
+            ),
+        ]
+    )
     robot_description = {"robot_description": robot_description_content}
 
- 
-    rviz_config_file = PathJoinSubstitution(
-        [
-            FindPackageShare("rhacobot_description"), 
-            "rviz", 
-            "rhacobot_view.rviz"
-        ]
+    pkg_share_visualization = get_package_share_directory("rhacobot_description")
+
+    visualization = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [os.path.join(pkg_share_visualization, "launch/visualization.launch.py")]
+        ),
+        launch_arguments={"gui": "false"}.items(),
     )
 
     joint_state_publisher_node = Node(
@@ -77,20 +84,13 @@ def generate_launch_description():
         executable="robot_state_publisher",
         output="both",
         parameters=[robot_description],
+        condition=IfCondition(gui),
     )
 
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_config_file],
-    )
-    
     nodes = [
         joint_state_publisher_node,
         robot_state_publisher_node,
-        rviz_node,
+        visualization,
     ]
 
     return LaunchDescription(declared_arguments + nodes)

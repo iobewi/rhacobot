@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <xacro:arg name="controllers" default="true" />
+    <xacro:arg name="imu" default="true" />
+
+    <!-- IMU   -->
+    <xacro:if value="$(arg imu)">
+        <xacro:include filename="$(find rhacobot_gazebo)/macros/imu.xacro" />
+        <xacro:imu link="imu_body_link" hz="50" topic="IMU" />
+    </xacro:if>
+
+    <!-- Import Rhacobot mobile base -->
+    <xacro:include filename="$(find rhacobot_gazebo)/xacro/mobile_base.gazebo.xacro" />
+
+    <!-- Import Rhacobot tail -->
+    <xacro:include filename="$(find rhacobot_gazebo)/xacro/tail.gazebo.xacro" />
+
+    <!-- controller manager and hardware interfaces -->
+    <xacro:if value="$(arg controllers)">
+        <gazebo>
+            <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+                <parameters>$(find rhacobot_control)/config/controllers.yaml</parameters>
+            </plugin>
+        </gazebo>
+        <xacro:include filename="$(find rhacobot_control)/xacro/rhacobot.ros2_control.xacro" />
+    </xacro:if>
+
+</robot>

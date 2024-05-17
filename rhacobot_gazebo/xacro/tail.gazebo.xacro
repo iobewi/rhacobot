@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <gazebo reference="tail_base_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <gazebo reference="tail_shoulder_link">
+        <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <gazebo reference="tail_arm_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="tail_forearm_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="tail_wheel_link">
+        <material>Gazebo/Yellow</material>
+        <mu1 value="0.001" />
+        <mu2 value="0.001" />
+    </gazebo>
+</robot>
