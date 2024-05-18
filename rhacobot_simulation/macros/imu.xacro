@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="IMU" description="IMU sensor">
+    <xacro:macro name="imu" params="link hz topic">
+
+        <gazebo reference="${link}">
+            <sensor name="SimIMU" type="imu">
+                <always_on>1</always_on>
+                <update_rate>25.0</update_rate>
+                <visualize>true</visualize>
+                <topic>${topic}</topic>
+                <frame_id>${link}</frame_id>
+                <ignition_frame_id>${link}</ignition_frame_id>
+                <imu>
+                    <orientation_reference_frame>
+                        <localization>ENU</localization>
+                    </orientation_reference_frame>
+                </imu>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

@@ -1,15 +1,15 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-    <xacro:macro name="mobile_base_ros2_control" params="ifname use_gazebo:=^|false">
+    <xacro:macro name="mobile_base_ros2_control" params="ifname use_simulation:=^|false">
 
         <ros2_control name="mobile_base_ros2_control" type="system">
 
             <hardware>
-                <xacro:if value="${use_gazebo}">
-                    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+                <xacro:if value="${use_simulation}">
+                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
                 </xacro:if>
-                <xacro:unless value="${use_gazebo}">
+                <xacro:unless value="${use_simulation}">
                     <plugin>myactuator_hardware_interface/MyActuatorHardwareInterface</plugin>
                     <param name="ifname">${ifname}</param>
                     <param name="timeout">1000</param>
@@ -18,12 +18,12 @@
             </hardware>
 
             <joint name="base_left_wheel_joint">
-                <xacro:if value="${use_gazebo}">
+                <xacro:if value="${use_simulation}">
                     <command_interface name="velocity"/>
                     <state_interface name="position"/>
                     <state_interface name="velocity"/>
                 </xacro:if>
-                <xacro:unless value="${use_gazebo}">
+                <xacro:unless value="${use_simulation}">
                     <param name="can_id">1</param>
                     <param name="reducer_ratio">6.2</param>
                     <param name="speed_constant">30</param>
@@ -43,12 +43,12 @@
             </joint>
 
             <joint name="base_right_wheel_joint">
-                <xacro:if value="${use_gazebo}">
+                <xacro:if value="${use_simulation}">
                     <command_interface name="velocity"/>
                     <state_interface name="position"/>
                     <state_interface name="velocity"/>
                 </xacro:if>
-                <xacro:unless value="${use_gazebo}">
+                <xacro:unless value="${use_simulation}">
                     <param name="can_id">2</param>
                     <param name="reducer_ratio">6.2</param>
                     <param name="speed_constant">30</param>

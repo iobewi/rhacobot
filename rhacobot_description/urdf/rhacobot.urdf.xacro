@@ -3,7 +3,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rhacobot_urdf">
   
     <!-- parameters -->
-  <xacro:arg name="use_gazebo" default="false" />
+  <xacro:arg name="use_simulation" default="false" />
 
 
  <!-- Import Common poperties-->
@@ -15,8 +15,8 @@
   <!-- Import Rhacobot tail -->
   <xacro:include filename="$(find rhacobot_description)/urdf/tail.xacro" />
 
-  <xacro:if value="$(arg use_gazebo)">
-    <xacro:include filename="$(find rhacobot_gazebo)/xacro/rhacobot.gazebo.xacro" />
+  <xacro:if value="$(arg use_simulation)">
+    <xacro:include filename="$(find rhacobot_simulation)/xacro/rhacobot.gazebo.xacro" />
   </xacro:if>
 
   

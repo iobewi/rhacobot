@@ -8,20 +8,20 @@
 
     <!-- IMU   -->
     <xacro:if value="$(arg imu)">
-        <xacro:include filename="$(find rhacobot_gazebo)/macros/imu.xacro" />
+        <xacro:include filename="$(find rhacobot_simulation)/macros/imu.xacro" />
         <xacro:imu link="imu_body_link" hz="50" topic="IMU" />
     </xacro:if>
 
     <!-- Import Rhacobot mobile base -->
-    <xacro:include filename="$(find rhacobot_gazebo)/xacro/mobile_base.gazebo.xacro" />
+    <xacro:include filename="$(find rhacobot_simulation)/xacro/mobile_base.gazebo.xacro" />
 
     <!-- Import Rhacobot tail -->
-    <xacro:include filename="$(find rhacobot_gazebo)/xacro/tail.gazebo.xacro" />
+    <xacro:include filename="$(find rhacobot_simulation)/xacro/tail.gazebo.xacro" />
 
     <!-- controller manager and hardware interfaces -->
     <xacro:if value="$(arg controllers)">
         <gazebo>
-            <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
                 <parameters>$(find rhacobot_control)/config/controllers.yaml</parameters>
             </plugin>
         </gazebo>

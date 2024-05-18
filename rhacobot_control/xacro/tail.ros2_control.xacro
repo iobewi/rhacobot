@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:macro name="tail_ros2_control" params="ifname use_gazebo:=^|false">
+    <xacro:macro name="tail_ros2_control" params="ifname use_simulation:=^|false">
 
         <ros2_control name="tail_ros2_control" type="system">
 
             <hardware>
-                <xacro:if value="${use_gazebo}">
-                    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+                <xacro:if value="${use_simulation}">
+                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
                 </xacro:if>
-                <xacro:unless value="${use_gazebo}">
+                <xacro:unless value="${use_simulation}">
                     <plugin>myactuator_hardware_interface/MyActuatorHardwareInterface</plugin>
                     <param name="ifname">${ifname}</param>
                     <param name="timeout">1000</param>
@@ -18,7 +18,7 @@
             </hardware>
 
             <joint name="tail_base_shoulder_joint">
-                <xacro:if value="${use_gazebo}">
+                <xacro:if value="${use_simulation}">
                     <command_interface name="position">
                         <param name="min">-1</param>
                         <param name="max">1</param>
@@ -26,7 +26,7 @@
                     <state_interface name="position" />
                     <state_interface name="velocity" />
                 </xacro:if>
-                <xacro:unless value="${use_gazebo}">
+                <xacro:unless value="${use_simulation}">
                     <param name="can_id">3</param>
                     <param name="reducer_ratio">6.2</param>
                     <param name="speed_constant">30</param>
@@ -46,7 +46,7 @@
             </joint>
 
             <joint name="shoulder_arm_joint">
-                <xacro:if value="${use_gazebo}">
+                <xacro:if value="${use_simulation}">
                     <command_interface name="position">
                         <param name="min">-1</param>
                         <param name="max">1</param>
@@ -54,7 +54,7 @@
                     <state_interface name="position" />
                     <state_interface name="velocity" />
                 </xacro:if>
-                <xacro:unless value="${use_gazebo}">
+                <xacro:unless value="${use_simulation}">
                     <param name="can_id">4</param>
                     <param name="reducer_ratio">6.2</param>
                     <param name="speed_constant">30</param>
@@ -74,7 +74,7 @@
             </joint>
 
             <joint name="arm_forearm_joint">
-                <xacro:if value="${use_gazebo}">
+                <xacro:if value="${use_simulation}">
                     <command_interface name="position">
                         <param name="min">-1</param>
                         <param name="max">1</param>
@@ -82,7 +82,7 @@
                     <state_interface name="position" />
                     <state_interface name="velocity" />
                 </xacro:if>
-                <xacro:unless value="${use_gazebo}">
+                <xacro:unless value="${use_simulation}">
                     <param name="can_id">5</param>
                     <param name="reducer_ratio">6.2</param>
                     <param name="speed_constant">30</param>
