@@ -11,7 +11,7 @@
     <xacro:property name="wheel_length" value="0.04" />
     <xacro:property name="wheel_offset_origin_y" value="0.05" />
 
-    <link name="base_link"/> 
+    <link name="base_link" />
 
 
     <link name="body_link">
@@ -31,7 +31,8 @@
                 xyz="${base_offset_origin_x - (base_length /2)} ${base_offset_origin_y} ${base_offset_origin_z - (base_height/2)}"
                 rpy="0 0 0" />
         </collision>
-        <xacro:box_inertia m="5.0" l="${gazebo_drift_factor * base_length}" w="${gazebo_drift_factor * base_width}" h="${gazebo_drift_factor * base_height}"
+        <xacro:box_inertia m="5.0" l="${gazebo_drift_factor * base_length}"
+            w="${gazebo_drift_factor * base_width}" h="${gazebo_drift_factor * base_height}"
             xyz="${base_offset_origin_x - (base_length /2)} ${base_offset_origin_y} ${base_offset_origin_z - (base_height/2)}"
             rpy="0 0 0" />
     </link>
@@ -44,22 +45,22 @@
 
     <link name="imu_body_link">
         <visual>
-          <geometry>
-            <box size="0.001 0.001 0.001"/>
-          </geometry>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
         </visual>
         <collision>
-          <geometry>
-            <box size="0.001 0.001 0.001"/>
-        </geometry>
-      </collision>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
     </link>
 
-      <joint name="imu_body_joint" type="fixed">
-        <parent link="body_link"/>
-        <child link="imu_body_link"/>
-        <origin xyz="0 0 0.05"/>
-      </joint>
+    <joint name="imu_body_joint" type="fixed">
+        <parent link="body_link" />
+        <child link="imu_body_link" />
+        <origin xyz="0 0 0.05" />
+    </joint>
 
     <link name="right_wheel_link">
         <visual>
@@ -76,7 +77,8 @@
             </geometry>
             <origin xyz="0 -${wheel_offset_origin_y}  0" rpy="${pi / 2.0} 0 0" />
         </collision>
-        <xacro:cylinder_inertia m="1.0" r="${gazebo_drift_factor * wheel_radius}" h="${gazebo_drift_factor * wheel_length}"
+        <xacro:cylinder_inertia m="1.0" r="${gazebo_drift_factor * wheel_radius}"
+            h="${gazebo_drift_factor * wheel_length}"
             xyz="0 -${wheel_offset_origin_y}  0" rpy="${pi / 2.0} 0 0" />
     </link>
 
@@ -88,23 +90,24 @@
     </joint>
 
     <link name="left_wheel_link">
-            <visual>
-                <geometry>
-                    <mesh filename="file://$(find rhacobot_description)/meshes/wheel.stl"
-                        scale="0.001 0.001 0.001" />
-                </geometry>
-                <origin xyz="0 0 0" rpy="0 0 0" />
-                <material name="grey" />
-            </visual>
-            <collision>
-                <geometry>
-                    <cylinder radius="${wheel_radius}" length="${wheel_length}" />
-                </geometry>
-                <origin xyz="0 ${wheel_offset_origin_y}  0" rpy="${pi / 2.0} 0 0" />
-            </collision>
-            <xacro:cylinder_inertia m="1.0" r="${gazebo_drift_factor * wheel_radius}" h="${gazebo_drift_factor * wheel_length}"
-                xyz="0 ${wheel_offset_origin_y}  0" rpy="${pi / 2.0} 0 0" />
-        </link>
+        <visual>
+            <geometry>
+                <mesh filename="file://$(find rhacobot_description)/meshes/wheel.stl"
+                    scale="0.001 0.001 0.001" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="grey" />
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+            </geometry>
+            <origin xyz="0 ${wheel_offset_origin_y}  0" rpy="${pi / 2.0} 0 0" />
+        </collision>
+        <xacro:cylinder_inertia m="1.0" r="${gazebo_drift_factor * wheel_radius}"
+            h="${gazebo_drift_factor * wheel_length}"
+            xyz="0 ${wheel_offset_origin_y}  0" rpy="${pi / 2.0} 0 0" />
+    </link>
 
     <joint name="base_left_wheel_joint" type="continuous">
         <parent link="body_link" />
