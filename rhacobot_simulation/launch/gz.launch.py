@@ -1,56 +1,40 @@
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, FindExecutable, PathJoinSubstitution
 
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare 
 from launch.event_handlers import OnProcessExit
 
 import os
 from ament_index_python.packages import get_package_share_directory
 
+import xacro
 
 def generate_launch_description():
 
-    robot_description_content = Command(
-        [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            PathJoinSubstitution(
-                [FindPackageShare("rhacobot_description"), "urdf", "rhacobot.urdf.xacro"]
-            ),
-            " ",
-            "use_simulation:=true",
-            " ",
-            "controllers:=true",
-        ]
-    )
-    robot_description = {"robot_description": robot_description_content}
     pkg_share = get_package_share_directory("rhacobot_simulation")
-    
+    pkg_share_description = get_package_share_directory('rhacobot_description')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
-
     pkg_share_control = get_package_share_directory('rhacobot_control')
 
-    controllers = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share_control, 'launch/controllers.launch.py'))
+
+    xacro_file = os.path.join(pkg_share_description, 'urdf', "rhacobot.urdf.xacro")
+    doc = xacro.parse(open(xacro_file))
+    xacro.process_doc(doc, mappings={"use_simulation": "true", "controllers": "true"})
+    robot_description_content = doc.toxml()
+
+    controllers_spawner = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_share_control, 'launch/controllers_spawner.launch.py'))
     )
 
-    pkg_share_description = get_package_share_directory('rhacobot_description')
-
     visualization = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(
-            pkg_share_description, 'launch/visualization.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_share_description, 'launch/visualization.launch.py'))
     )
 
     # Gz launch
     gz_sim = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
-        launch_arguments={
-            'gz_args': ' -r ' + pkg_share + '/worlds/home.world'
-        }.items(),
+        PythonLaunchDescriptionSource(os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
+        launch_arguments={ 'gz_args': ' -r ' + pkg_share + '/worlds/home.world' }.items(),
     )
 
     gz_sim_spawn_entity = Node(
@@ -68,7 +52,6 @@ def generate_launch_description():
         executable='parameter_bridge',
         arguments=['/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock',
                    '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
-                   '/gps/fix@sensor_msgs/msg/NavSatFix[gz.msgs.NavSat',
                    ],
         output='screen'
     )
@@ -76,7 +59,7 @@ def generate_launch_description():
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        parameters=[robot_description]
+        parameters=[{'robot_description': doc.toxml()}],
     )
 
     robot_steering_node = Node (
@@ -93,7 +76,7 @@ def generate_launch_description():
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=gz_sim_spawn_entity,
-                on_exit=[controllers],
+                on_exit=[controllers_spawner],
             )
         ),
         bridge,

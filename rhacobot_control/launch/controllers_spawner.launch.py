@@ -13,16 +13,11 @@
 # limitations under the License.
 
 from launch import LaunchDescription
-from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import Node
 
-import os
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
-
-    pkg_share = get_package_share_directory("rhacobot_control")
-    params_file = os.path.join(pkg_share, "config", "controllers.yaml")
 
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",

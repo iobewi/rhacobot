@@ -14,25 +14,17 @@
 
 
 import os
+import xacro
 
 from launch import LaunchDescription
-from launch.actions import (
-    DeclareLaunchArgument,
-    IncludeLaunchDescription,
-)
+from launch.actions import DeclareLaunchArgument,IncludeLaunchDescription
 from launch.conditions import IfCondition
-from launch.substitutions import (
-    Command,
-    FindExecutable,
-    LaunchConfiguration,
-    PathJoinSubstitution,
-)
-from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-from ament_index_python.packages import get_package_share_directory
-
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
 
+from launch_ros.actions import Node
+
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     # Declare arguments
@@ -48,29 +40,16 @@ def generate_launch_description():
     # Initialize Arguments
     gui = LaunchConfiguration("gui")
 
-    # Get URDF via xacro
-    robot_description_content = Command(
-        [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            PathJoinSubstitution(
-                [
-                    FindPackageShare("rhacobot_description"),
-                    "urdf",
-                    "rhacobot.urdf.xacro",
-                ]
-            ),
-        ]
-    )
-    robot_description = {"robot_description": robot_description_content}
+    pkg_share_description = get_package_share_directory('rhacobot_description')
 
-    pkg_share_visualization = get_package_share_directory("rhacobot_description")
+    xacro_file = os.path.join(pkg_share_description, 'urdf', "rhacobot.urdf.xacro")
+    doc = xacro.parse(open(xacro_file))
+    xacro.process_doc(doc)
 
     visualization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [os.path.join(pkg_share_visualization, "launch/visualization.launch.py")]
-        ),
-        launch_arguments={"gui": "false"}.items(),
+            [os.path.join(pkg_share_description, "launch/visualization.launch.py")]
+        )
     )
 
     joint_state_publisher_node = Node(
@@ -83,14 +62,14 @@ def generate_launch_description():
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="both",
-        parameters=[robot_description],
+        parameters=[{'robot_description': doc.toxml()}],
         condition=IfCondition(gui),
     )
 
-    nodes = [
+    return LaunchDescription(
+        [
         joint_state_publisher_node,
         robot_state_publisher_node,
         visualization,
-    ]
-
-    return LaunchDescription(declared_arguments + nodes)
+        ]
+    )

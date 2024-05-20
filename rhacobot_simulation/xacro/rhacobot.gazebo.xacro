@@ -9,7 +9,7 @@
     <!-- IMU   -->
     <xacro:if value="$(arg imu)">
         <xacro:include filename="$(find rhacobot_simulation)/macros/imu.xacro" />
-        <xacro:imu link="imu_body_link" hz="50" topic="IMU" />
+        <xacro:imu link="imu_body_link" hz="50" topic="imu" />
     </xacro:if>
 
     <!-- Import Rhacobot mobile base -->
