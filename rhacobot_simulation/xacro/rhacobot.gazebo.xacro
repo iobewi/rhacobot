@@ -5,7 +5,7 @@
 
     <xacro:arg name="controllers" default="true" />
     <xacro:arg name="imu" default="true" />
-    <xacro:arg name="gps" default="true" />
+    <xacro:arg name="gps" default="false" />
 
     <!-- IMU   -->
     <xacro:if value="$(arg imu)">
@@ -16,7 +16,7 @@
     <!-- GPS   -->
     <xacro:if value="$(arg gps)">
         <xacro:include filename="$(find rhacobot_simulation)/macros/gps.xacro" />
-        <xacro:gps link="imu_body_link" hz="50" topic="gps" />
+        <xacro:gps link="imu_body_link" hz="50" topic="gps/fix" />
     </xacro:if>
 
     <!-- Import Rhacobot mobile base -->

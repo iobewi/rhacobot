@@ -13,18 +13,19 @@ import xacro
 def generate_launch_description():
 
     pkg_rhacobot_simulation = get_package_share_directory("rhacobot_simulation")
-    pkg_share_description = get_package_share_directory('rhacobot_description')
+    pkg_rhacobot_description = get_package_share_directory('rhacobot_description')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
-    pkg_share_control = get_package_share_directory('rhacobot_control')
+    pkg_rhacobot_control = get_package_share_directory('rhacobot_control')
 
 
-    xacro_file = os.path.join(pkg_share_description, 'urdf', "rhacobot.urdf.xacro")
+
+    xacro_file = os.path.join(pkg_rhacobot_description, 'urdf', "rhacobot.urdf.xacro")
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc, mappings={"use_simulation": "true", "controllers": "true"})
     robot_description_content = doc.toxml()
 
     controllers_spawner = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share_control, 'launch', 'controllers_spawner.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_control, 'launch', 'controllers_spawner.launch.py'))
     )
 
     # Gz launch
@@ -48,7 +49,6 @@ def generate_launch_description():
         executable='parameter_bridge',
         arguments=['/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock',
                    '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
-                   '/gps@sensor_msgs/msg/NavSatFix[gz.msgs.NavSat',
                    ],
         output='screen'
     )
