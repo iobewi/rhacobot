@@ -10,7 +10,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    pkg_share = get_package_share_directory('rhacobot_localization')
+    pkg_rhacobot_localization = get_package_share_directory('rhacobot_localization')
 
   
     map_transform_node = Node(
@@ -47,7 +47,7 @@ def generate_launch_description():
         name='ukf_node',
         output='screen',
         respawn=True,
-        parameters=[os.path.join(pkg_share, 'config/ukf.yaml')],
+        parameters=[os.path.join(pkg_rhacobot_localization, 'config/ukf.yaml')],
         remappings=[
             ('/odometry/filtered', '/odom'),
         ]

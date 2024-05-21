@@ -1,14 +1,29 @@
 from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
+from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 import os
 
 
 def generate_launch_description():
+    # Declare arguments
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "gui",
+            default_value="false",
+            description="ToDo",
+        )
+    )
 
-    pkg_share = get_package_share_directory("rhacobot_teleop")
-    params_file = os.path.join(pkg_share, "config", "config.yaml")
+    # Initialize Arguments
+    gui = LaunchConfiguration("gui")
+
+    pkg_rhacobot_teleop = get_package_share_directory("rhacobot_teleop")
+    params_file = os.path.join(pkg_rhacobot_teleop, "config", "config.yaml")
     teleop_pub = "/wheel_controller/cmd_vel_unstamped"
 
     joy_node = Node(
@@ -28,9 +43,17 @@ def generate_launch_description():
         ],
     )
 
+    robot_steering_node = Node (
+        package="rqt_robot_steering",
+        executable="rqt_robot_steering",
+        parameters=[{"default_topic": teleop_pub}] ,
+        condition=IfCondition(gui),
+    )
+
     return LaunchDescription(
         [
             joy_node,
             teleop_node,
+            robot_steering_node,
         ]
     )

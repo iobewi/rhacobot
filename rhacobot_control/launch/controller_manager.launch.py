@@ -7,8 +7,8 @@ import os
 
 def generate_launch_description():
 
-    pkg_share = get_package_share_directory("rhacobot_control")
-    params_file = os.path.join(pkg_share, "config", "controllers.yaml")
+    pkg_rhacobot_control = get_package_share_directory("rhacobot_control")
+    params_file = os.path.join(pkg_rhacobot_control, "config", "controllers.yaml")
 
 
     control_node = Node(

@@ -4,7 +4,7 @@
   <name>rhacobot_bringup</name>
   <version>0.1.0</version>
   <description>Launch files and configurations for Rhacobot</description>
-  <maintainer email="orcil.lione@gmail.coml">Lionel ORCIL</maintainer>
+  <maintainer email="orcil.lionel@gmail.com">Lionel ORCIL</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>

@@ -4,7 +4,7 @@
   <name>rhacobot_simulation</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="orcil.lione@gmail.coml">Lionel ORCIL</maintainer>
+  <maintainer email="orcil.lionel@gmail.com">Lionel ORCIL</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
@@ -13,7 +13,8 @@
   <exec_depend>ros_gz_sim</exec_depend>
   <exec_depend>rhacobot_description</exec_depend>
   <exec_depend>rhacobot_control</exec_depend>
-
+  <exec_depend>rhacobot_teleop</exec_depend>
+  <exec_depend>rhacobot_localization</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>

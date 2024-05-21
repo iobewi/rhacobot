@@ -4,11 +4,13 @@
   <name>rhacobot_localization</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="orcil.lione@gmail.coml">Lionel ORCIL</maintainer>
+  <maintainer email="orcil.lionel@gmail.com">Lionel ORCIL</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
 
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

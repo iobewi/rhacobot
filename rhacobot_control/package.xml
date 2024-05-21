@@ -4,12 +4,10 @@
   <name>rhacobot_control</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="orcil.lione@gmail.coml">Lionel ORCIL</maintainer>
+  <maintainer email="orcil.lionel@gmail.com">Lionel ORCIL</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
-
-  <build_depend>controller_manager</build_depend>
   <exec_depend>controller_manager</exec_depend>
 
   <export>

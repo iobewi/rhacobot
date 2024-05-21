@@ -4,14 +4,14 @@
 <name>rhacobot_description</name>
   <version>0.1.0</version>
 <description>Package with URDF and description files of Rhacobot</description>
-  <maintainer email="orcil.lione@gmail.coml">Lionel ORCIL</maintainer>
+  <maintainer email="orcil.lionel@gmail.com">Lionel ORCIL</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+
   <exec_depend>joint_state_publisher</exec_depend>
   <exec_depend>joint_state_publisher_gui</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
-
   <exec_depend>rviz2</exec_depend>
   <exec_depend>xacro</exec_depend>
 

@@ -25,15 +25,15 @@ def generate_launch_description():
     # Initialize Arguments
     gui = LaunchConfiguration("gui")
 
-    pkg_share_description = get_package_share_directory('rhacobot_description')
+    pkg_rhacobot_description = get_package_share_directory('rhacobot_description')
 
-    xacro_file = os.path.join(pkg_share_description, 'urdf', "rhacobot.urdf.xacro")
+    xacro_file = os.path.join(pkg_rhacobot_description, 'urdf', "rhacobot.urdf.xacro")
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)
 
     visualization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [os.path.join(pkg_share_description, "launch/visualization.launch.py")]
+            [os.path.join(pkg_rhacobot_description, "launch/visualization.launch.py")]
         )
     )
 
