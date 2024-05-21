@@ -1,4 +1,4 @@
-# Rhacobot ROS2 Control
+# Rhacobot
 
 This project implements the control of Rhacobot using ROS2. The project is organized into several components to facilitate development and integration.
 
