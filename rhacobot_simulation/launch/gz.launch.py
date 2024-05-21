@@ -1,47 +1,73 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
+from launch_ros.actions import Node
+from launch.event_handlers import OnProcessExit
 
 import os
 from ament_index_python.packages import get_package_share_directory
+
+import xacro
 
 def generate_launch_description():
 
     pkg_rhacobot_simulation = get_package_share_directory("rhacobot_simulation")
     pkg_rhacobot_description = get_package_share_directory('rhacobot_description')
-    pkg_rhacobot_localization = get_package_share_directory('rhacobot_localization')
-    pkg_rhacobot_teleop = get_package_share_directory('rhacobot_teleop')
-    pkg_rhacobot_navigation = get_package_share_directory('rhacobot_navigation')
+    pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
+    pkg_rhacobot_control = get_package_share_directory('rhacobot_control')
 
 
-    simulation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_simulation, 'launch', 'simulation.launch.py'))
+
+    xacro_file = os.path.join(pkg_rhacobot_description, 'urdf', "rhacobot.urdf.xacro")
+    doc = xacro.parse(open(xacro_file))
+    xacro.process_doc(doc, mappings={"use_simulation": "true", "controllers": "true"})
+    robot_description_content = doc.toxml()
+
+    controllers_spawner = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_control, 'launch', 'controllers_spawner.launch.py'))
     )
 
-    visualization = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_description, 'launch', 'visualization.launch.py'))
+    # Gz launch
+    gz_sim = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
+        launch_arguments={ 'gz_args': ' -r ' + pkg_rhacobot_simulation + '/worlds/home.world' }.items(),
     )
 
-    localization = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_localization, 'launch', 'localization.launch.py'))
+    gz_sim_spawn_entity = Node(
+        package='ros_gz_sim',
+        executable='create',
+        output='screen',
+        arguments=['-string', robot_description_content,
+                   '-name', 'robot',
+                   '-allow_renaming', 'true',
+                   '-z', '0.4'],
     )
 
-    teleop = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_teleop, 'launch', 'teleop.launch.py')),
-        launch_arguments={ 'gui': 'true' }.items(),
+    bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock',
+                   '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+                   ],
+        output='screen'
     )
 
-    navigation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_navigation, 'launch', 'navigation.launch.py')),
-        launch_arguments={ 'gui': 'true' }.items(),
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        parameters=[{'robot_description': doc.toxml()}],
     )
-
 
     return LaunchDescription([
-        simulation,
-        visualization,
-        localization,
-        teleop,
-        navigation,
+        robot_state_publisher_node,
+        gz_sim,
+        gz_sim_spawn_entity,
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=gz_sim_spawn_entity,
+                on_exit=[controllers_spawner],
+            )
+        ),
+        bridge,
     ])

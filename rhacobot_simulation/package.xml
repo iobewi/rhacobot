@@ -13,7 +13,6 @@
   <exec_depend>ros_gz_sim</exec_depend>
   <exec_depend>rhacobot_description</exec_depend>
   <exec_depend>rhacobot_control</exec_depend>
-  <exec_depend>rhacobot_teleop</exec_depend>
   <exec_depend>rhacobot_localization</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>

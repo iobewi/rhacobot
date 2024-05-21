@@ -6,8 +6,8 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
-    pkg_share = get_package_share_directory("rhacobot_bringup")
-    position_goals = os.path.join(pkg_share, 'config', 'joint_trajectory_publisher.yaml')
+    pkg_rhacobot_bringup = get_package_share_directory("rhacobot_bringup")
+    position_goals = os.path.join(pkg_rhacobot_bringup, 'config', 'joint_trajectory_publisher.yaml')
 
     return LaunchDescription(
         [
