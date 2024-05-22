@@ -8,8 +8,6 @@ from launch.event_handlers import OnProcessExit
 import os
 from ament_index_python.packages import get_package_share_directory
 
-import xacro
-
 def generate_launch_description():
 
     pkg_rhacobot_simulation = get_package_share_directory("rhacobot_simulation")
@@ -17,15 +15,13 @@ def generate_launch_description():
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     pkg_rhacobot_control = get_package_share_directory('rhacobot_control')
 
-
-
-    xacro_file = os.path.join(pkg_rhacobot_description, 'urdf', "rhacobot.urdf.xacro")
-    doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc, mappings={"use_simulation": "true", "controllers": "true"})
-    robot_description_content = doc.toxml()
-
-    controllers_spawner = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_control, 'launch', 'controllers_spawner.launch.py'))
+    robot_state_publisher = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_description, 'launch', 'robot_state_publisher.launch.py')),
+        launch_arguments={ 'use_simulation': 'true', 'use_controllers': 'true'  }.items(),
+    )
+    
+    control_spawner= IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_control, 'launch', 'control_spawner.launch.py'))
     )
 
     # Gz launch
@@ -38,7 +34,7 @@ def generate_launch_description():
         package='ros_gz_sim',
         executable='create',
         output='screen',
-        arguments=['-string', robot_description_content,
+        arguments=['-topic', '/robot_description',
                    '-name', 'robot',
                    '-allow_renaming', 'true',
                    '-z', '0.4'],
@@ -53,20 +49,14 @@ def generate_launch_description():
         output='screen'
     )
 
-    robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        parameters=[{'robot_description': doc.toxml()}],
-    )
-
     return LaunchDescription([
-        robot_state_publisher_node,
+        robot_state_publisher,
         gz_sim,
         gz_sim_spawn_entity,
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=gz_sim_spawn_entity,
-                on_exit=[controllers_spawner],
+                on_exit=[control_spawner],
             )
         ),
         bridge,

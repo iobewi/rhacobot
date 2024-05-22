@@ -16,11 +16,11 @@ def generate_launch_description():
 
 
     simulation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_simulation, 'launch', 'simulation.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_simulation, 'launch', 'gz.launch.py'))
     )
 
-    visualization = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_description, 'launch', 'visualization.launch.py'))
+    rviz = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_rhacobot_description, 'launch', 'rviz.launch.py'))
     )
 
     localization = IncludeLaunchDescription(
@@ -40,7 +40,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         simulation,
-        visualization,
+        rviz,
         localization,
         teleop,
         navigation,

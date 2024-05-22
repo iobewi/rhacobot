@@ -4,7 +4,7 @@
   
     <!-- parameters -->
   <xacro:arg name="use_simulation" default="false" />
-
+  <xacro:arg name="use_controllers" default="true" />
 
  <!-- Import Common poperties-->
     <xacro:include filename="$(find rhacobot_description)/urdf/common_properties.xacro" />
@@ -19,6 +19,10 @@
     <xacro:include filename="$(find rhacobot_simulation)/xacro/rhacobot.gazebo.xacro" />
   </xacro:if>
 
+  <!-- controller manager and hardware interfaces -->
+  <xacro:if value="$(arg use_controllers)">
+    <xacro:include filename="$(find rhacobot_control)/xacro/rhacobot.ros2_control.xacro" />
+  </xacro:if>
   
   <joint name="base_tail_base_joint" type="fixed">
     <parent link="body_link" />

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-
-    <xacro:arg name="controllers" default="true" />
     <xacro:arg name="imu" default="true" />
     <xacro:arg name="gps" default="false" />
 
@@ -26,13 +23,12 @@
     <xacro:include filename="$(find rhacobot_simulation)/xacro/tail.gazebo.xacro" />
 
     <!-- controller manager and hardware interfaces -->
-    <xacro:if value="$(arg controllers)">
+    <xacro:if value="$(arg use_controllers)">
         <gazebo>
             <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
                 <parameters>$(find rhacobot_control)/config/controllers.yaml</parameters>
             </plugin>
         </gazebo>
-        <xacro:include filename="$(find rhacobot_control)/xacro/rhacobot.ros2_control.xacro" />
     </xacro:if>
 
 </robot>
