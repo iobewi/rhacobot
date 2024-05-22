@@ -29,16 +29,7 @@ def generate_launch_description():
         ]
     )
 
-   
-    # Event handler to spawn the joint state broadcaster after the control node exits
-    joint_state_broadcaster_event_handler = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=control_node,
-            on_exit=[control_spawner],
-        ),
-    )
-
     return LaunchDescription([
         control_node,
-        joint_state_broadcaster_event_handler,
+        control_spawner,
     ])
