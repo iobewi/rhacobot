@@ -17,23 +17,20 @@ This project implements the control of Rhacobot using ROS2. The project is organ
 - Python 3.8+
 - CMake 3.10+
 
-
-
 ## Installation
 
-Prerequisites :
+Prerequisites:
 ```bash
-mkdir -p rhacobot_ws/src
+mkdir rhacobot_ws
 cd rhacobot_ws
 sudo rosdep init
 ```
 
 Install script:
 ```bash
-# curl
+# Using curl
 bash <(curl -s https://raw.githubusercontent.com/ioio2995/rhacobot/master/init_rhacobot.bash)
-# or
-# wget
+# Or using wget
 bash <(wget -qO- https://raw.githubusercontent.com/ioio2995/rhacobot/master/init_rhacobot.bash)
 ```
 
@@ -41,7 +38,10 @@ bash <(wget -qO- https://raw.githubusercontent.com/ioio2995/rhacobot/master/init
 
 To launch the robot:
 ```bash
-ros2 launch bringup bringup.launch.py
+# Real
+ros2 launch rhacobot_bringup bringup.launch.py
+# Simulation
+ros2 launch rhacobot_bringup simulation.launch.py
 ```
 
 ## Contribution
