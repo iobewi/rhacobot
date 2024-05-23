@@ -29,6 +29,14 @@ repositories:
         type: git
         url: https://github.com/ioio2995/rhacobot.git
         version: master
+    witmotion_ros:
+        type: git
+        url: https://github.com/ioio2995/witmotion_IMU_ros.git
+        version: ros2-ioio
+    witmotion_ros/witmotion-uart-qt:
+        type: git
+        url: https://github.com/ElettraSciComp/witmotion_IMU_QT.git
+        version: main
 EOL
 
 # Update rosdep
