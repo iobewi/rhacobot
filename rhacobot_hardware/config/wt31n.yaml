@@ -1,8 +1,8 @@
-witmotion_ros:
+witmotion:
   ros__parameters:
-    port: ttyUSB3
+    port: ttyUSB2
     baud_rate: 115200 # baud
-    polling_interval: 10 # ms
+    polling_interval: 50 # ms
     timeout_ms: 150 # ms
     restart_service_name: /restart_imu/wt31n
     imu_publisher:
@@ -12,55 +12,45 @@ witmotion_ros:
       measurements:
         acceleration:
           enabled: true
-          covariance: [0.0112, 0.0, 0.0, 0.0, 0.0081, 0.0, 0.0, 0.0, 0.0128]
+          covariance: [0.0364, 0.0, 0.0, 0.0, 0.0048, 0.0, 0.0, 0.0, 0.0796]
         angular_velocity:
           enabled: false
-          covariance: [0.1199, 0.0, 0.0, 0.0, 0.5753, 0.0, 0.0, 0.0, 0.0267]
+          covariance: [0.0663, 0.0, 0.0, 0.0, 0.1453, 0.0, 0.0, 0.0, 0.0378]
         orientation:
           enabled: true
-          covariance: [0.0457, 0.0, 0.0, 0.0, 0.0655, 0.0, 0.0, 0.0, 0.0]
-####### NOT USE ########
+          covariance: [0.0479, 0.0, 0.0, 0.0, 0.0207, 0.0, 0.0, 0.0, 0.0041]
     temperature_publisher:
       enabled: false
-      topic_name: /temperature
+      topic_name: /temperature/wt31n
       frame_id: base_link
-      from_message: magnetometer # acceleration, angular_vel, orientation, magnetometer
-      variance: 0.02683
+      from_message: angular_vel # acceleration, angular_vel, orientation, magnetometer
+      variance: 0.01829
       coefficient: 1.0 # Linear calibration parameters: coefficient
       addition: 0.0 # and addendum
+####### NOT USE ########
     magnetometer_publisher:
       enabled: false
-      topic_name: /magnetometer
-      frame_id: imu
+      topic_name: /magnetometer/wt31n
+      frame_id: compass
       coefficient: 0.00000001 # Linear calibration parameters: coefficient
       addition: 0.0 # and addendum
       covariance:
-        [
-          0.000000187123,
-          0.0,
-          0.0,
-          0.0,
-          0.000000105373,
-          0.0,
-          0.0,
-          0.0,
-          0.000000165816,
-        ]
+        [0.000000187123, 0.0, 0.0, 0.0, 0.000000105373, 0.0, 0.0, 0.0, 0.000000165816]
     barometer_publisher:
       enabled: false
-      topic_name: /barometer
+      topic_name: /barometer/wt31n
       frame_id: base_link
       variance: 0.001
       coefficient: 1.0 # Linear calibration parameters: coefficient
       addition: 0.0 # and addendum
     altimeter_publisher:
       enabled: false
-      topic_name: /altitude
+      topic_name: /altitude/wt31n
       coefficient: 1.0 # Linear calibration parameters: coefficient
       addition: 0.0 # and addendum
     orientation_publisher:
       enabled: false
-      topic_name: /orientation
+      topic_name: /orientation/wt31n
     gps_publisher:
       enabled: false
       navsat_fix_frame_id: world
