@@ -37,6 +37,10 @@ repositories:
         type: git
         url: https://github.com/ElettraSciComp/witmotion_IMU_QT.git
         version: main
+    daly_bms:
+        type: git
+        url: https://github.com/ioio2995/dalybms_ros2.git
+        version: master
 EOL
 
 # Update rosdep
