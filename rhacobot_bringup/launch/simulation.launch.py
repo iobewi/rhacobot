@@ -41,7 +41,7 @@ def generate_launch_description():
     return LaunchDescription([
         simulation,
         rviz,
-        localization,
+  
         teleop,
-        navigation,
+ 
     ])

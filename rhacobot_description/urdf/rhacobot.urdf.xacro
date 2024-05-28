@@ -2,7 +2,8 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rhacobot_urdf">
   
-    <!-- parameters -->
+  <!-- parameters -->
+  <xacro:arg name="use_sensors" default="true" />
   <xacro:arg name="use_simulation" default="false" />
   <xacro:arg name="use_controllers" default="true" />
 
@@ -15,6 +16,10 @@
   <!-- Import Rhacobot tail -->
   <xacro:include filename="$(find rhacobot_description)/urdf/tail.xacro" />
 
+  <xacro:if value="$(arg use_sensors)">
+    <xacro:include filename="$(find rhacobot_description)/urdf/sensors.xacro" />
+  </xacro:if>
+
   <xacro:if value="$(arg use_simulation)">
     <xacro:include filename="$(find rhacobot_simulation)/xacro/rhacobot.gazebo.xacro" />
   </xacro:if>
@@ -24,9 +29,6 @@
     <xacro:include filename="$(find rhacobot_control)/xacro/rhacobot.ros2_control.xacro" />
   </xacro:if>
   
-  <joint name="base_tail_base_joint" type="fixed">
-    <parent link="body_link" />
-    <child link="tail_base_link" />
-    <origin xyz="-0.185 0 -0.0335" rpy="0 0 0" />
-  </joint>
+  <link name="base_link" />
+
 </robot>

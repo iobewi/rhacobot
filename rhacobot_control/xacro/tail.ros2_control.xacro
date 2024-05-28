@@ -42,6 +42,7 @@
                     <param name="ki_speed">50</param>
                     <param name="kp_position">100</param>
                     <param name="ki_position">0.0</param>
+                    <param name="initial_angle_offset">0.0</param>
                 </xacro:unless>
             </joint>
 
@@ -51,7 +52,9 @@
                         <param name="min">-1</param>
                         <param name="max">1</param>
                     </command_interface>
-                    <state_interface name="position" />
+                    <state_interface name="position">
+                        <param name="initial_value">0.0</param>
+                    </state_interface>
                     <state_interface name="velocity" />
                 </xacro:if>
                 <xacro:unless value="${use_simulation}">
@@ -70,6 +73,7 @@
                     <param name="ki_speed">50</param>
                     <param name="kp_position">100</param>
                     <param name="ki_position">0.0</param>
+                    <param name="initial_angle_offset">0.0</param>
                 </xacro:unless>
             </joint>
 
@@ -98,6 +102,7 @@
                     <param name="ki_speed">50</param>
                     <param name="kp_position">100</param>
                     <param name="ki_position">0.0</param>
+                    <param name="initial_angle_offset">0.0</param>
                 </xacro:unless>
             </joint>
 

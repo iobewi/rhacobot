@@ -11,9 +11,6 @@
     <xacro:property name="wheel_length" value="0.04" />
     <xacro:property name="wheel_offset_origin_y" value="0.05" />
 
-    <link name="base_link" />
-
-
     <link name="body_link">
         <visual>
             <geometry>
@@ -37,29 +34,10 @@
             rpy="0 0 0" />
     </link>
 
-    <joint name="base_joint" type="fixed">
+    <joint name="base_body_joint" type="fixed">
         <parent link="base_link" />
         <child link="body_link" />
-        <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0" />
-    </joint>
-
-    <link name="imu_body_link">
-        <visual>
-            <geometry>
-                <box size="0.001 0.001 0.001" />
-            </geometry>
-        </visual>
-        <collision>
-            <geometry>
-                <box size="0.001 0.001 0.001" />
-            </geometry>
-        </collision>
-    </link>
-
-    <joint name="imu_body_joint" type="fixed">
-        <parent link="body_link" />
-        <child link="imu_body_link" />
-        <origin xyz="0 0 0.05" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
     <link name="right_wheel_link">
@@ -83,7 +61,7 @@
     </link>
 
     <joint name="base_right_wheel_joint" type="continuous">
-        <parent link="body_link" />
+        <parent link="base_link" />
         <child link="right_wheel_link" />
         <origin xyz="0 -${base_width / 2.0} 0" rpy="0 0 0" />
         <axis xyz="0 1 0" />
@@ -110,7 +88,7 @@
     </link>
 
     <joint name="base_left_wheel_joint" type="continuous">
-        <parent link="body_link" />
+        <parent link="base_link" />
         <child link="left_wheel_link" />
         <origin xyz="0 ${base_width  / 2.0} 0" rpy="0 0 0" />
         <axis xyz="0 1 0" />

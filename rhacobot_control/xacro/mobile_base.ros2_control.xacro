@@ -39,6 +39,7 @@
                     <param name="ki_speed">50</param>
                     <param name="kp_position">100</param>
                     <param name="ki_position">0</param>
+                    <param name="initial_angle_offset">0.0</param>
                 </xacro:unless>
             </joint>
 
@@ -64,6 +65,7 @@
                     <param name="ki_speed">50</param>
                     <param name="kp_position">100</param>
                     <param name="ki_position">0.0</param>
+                    <param name="initial_angle_offset">0.0</param>
                 </xacro:unless>
             </joint>
         </ros2_control>

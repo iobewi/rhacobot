@@ -1,0 +1,10 @@
+imu_filter_wt31n:
+  ros__parameters:
+    world_frame: "enu"
+    publish_tf: true
+    reverse_tf : false
+    fixed_frame : "odom"
+    publish_acc: false
+    use_imu_heading: false
+    frequency: 50.0
+    gain: 0.1

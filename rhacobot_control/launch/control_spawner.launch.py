@@ -32,7 +32,7 @@ def generate_launch_description():
     wheel_and_tail_controllers_event_handler = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
-            on_exit=[wheel_controller_spawner, tail_controller_spawner],
+            on_exit=[wheel_controller_spawner],
         )
     )
 

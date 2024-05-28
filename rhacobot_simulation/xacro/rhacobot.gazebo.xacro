@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:arg name="imu" default="true" />
-    <xacro:arg name="gps" default="false" />
 
-    <!-- IMU   -->
-    <xacro:if value="$(arg imu)">
-        <xacro:include filename="$(find rhacobot_simulation)/macros/imu.xacro" />
-        <xacro:imu link="imu_body_link" hz="50" topic="imu" />
+    <xacro:arg name="use_imu" default="true" />
+    <xacro:arg name="use_mag" default="true" />
+    <xacro:arg name="use_gps" default="true" />
+
+    <xacro:if value="$(arg use_sensors)">
+        <!-- IMU   -->
+        <xacro:if value="$(arg use_imu)">
+            <gazebo>
+                <plugin filename="libignition-gazebo-imu-system.so"
+                        name="ignition::gazebo::systems::Imu">
+                </plugin>
+            </gazebo>
+            <xacro:include filename="$(find rhacobot_simulation)/macros/imu.xacro" />
+            <xacro:imu name="wtgahrs1" hz="50" topic="imu/wtgahrs1" />
+            <xacro:imu name="wt901" hz="50" topic="imu/wt901" />
+            <xacro:imu name="wt31n" hz="50" topic="imu/wt31n" />
+        </xacro:if>
+
+        <!-- MAG   -->
+        <xacro:if value="$(arg use_mag)">
+            <gazebo>
+                <plugin filename="ignition-gazebo-magnetometer-system"
+                    name="gz::sim::systems::Magnetometer">
+                </plugin>
+            </gazebo>
+            <xacro:include filename="$(find rhacobot_simulation)/macros/imu.xacro" />
+            <xacro:mag name="wtgahrs1" hz="50" topic="mag/wtgahrs1" />
+            <xacro:mag name="wt901" hz="50" topic="mag/wt901" />
+        </xacro:if>
+
+        <!-- GPS   -->
+        <xacro:if value="$(arg use_gps)">
+            <gazebo>
+                <plugin filename="ignition-gazebo-navsat-system" 
+                     name="ignition::gazebo::systems::NavSat">
+                </plugin>
+            </gazebo>
+            <xacro:include filename="$(find rhacobot_simulation)/macros/gps.xacro" />
+            <xacro:gps name="wtgahrs1" hz="50" topic="gps/wtgahrs1/fix" />
+        </xacro:if>
     </xacro:if>
-
-    <!-- GPS   -->
-    <xacro:if value="$(arg gps)">
-        <xacro:include filename="$(find rhacobot_simulation)/macros/gps.xacro" />
-        <xacro:gps link="imu_body_link" hz="50" topic="gps/fix" />
-    </xacro:if>
-
+    
     <!-- Import Rhacobot mobile base -->
     <xacro:include filename="$(find rhacobot_simulation)/xacro/mobile_base.gazebo.xacro" />
 
