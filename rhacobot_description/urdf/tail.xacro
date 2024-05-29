@@ -27,6 +27,12 @@
             xyz="0 0 0" rpy="0 0 0" />
     </link>
 
+    <joint name="body_tail_base_joint" type="fixed">
+        <parent link="body_link" />
+        <child link="tail_base_link" />
+        <origin xyz="-0.185 0 -0.0335" rpy="0 0 0" />
+    </joint>
+
     <link name="tail_shoulder_link">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />

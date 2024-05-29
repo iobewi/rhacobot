@@ -55,47 +55,58 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        chassis:
+          Value: true
+        body_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        motor_wheel_right:
+        left_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        motor_wheel_left:
+        right_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        motor_flywheel_right:
+        tail_arm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        motor_flywheel_left:
+        tail_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_right:
+        tail_forearm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_left:
+        tail_shoulder_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        flywheel_right:
+        tail_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        flywheel_left:
+        wt31n_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wt901_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wtgahrs1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -115,21 +126,31 @@ Visualization Manager:
         All Enabled: true
         base_link:
           Value: true
-        front_left:
+        body_link:
           Value: true
-        front_right:
-          Value: true
-        gnss_link:
-          Value: true
-        imu_link:
+        left_wheel_link:
           Value: true
         map:
           Value: true
         odom:
           Value: true
-        rear_left:
+        right_wheel_link:
           Value: true
-        rear_right:
+        tail_arm_link:
+          Value: true
+        tail_base_link:
+          Value: true
+        tail_forearm_link:
+          Value: true
+        tail_shoulder_link:
+          Value: true
+        tail_wheel_link:
+          Value: true
+        wt31n_link:
+          Value: true
+        wt901_link:
+          Value: true
+        wtgahrs1_link:
           Value: true
       Marker Scale: 0.30000001192092896
       Name: TF
@@ -140,17 +161,22 @@ Visualization Manager:
         map:
           odom:
             base_link:
-              front_left:
+              body_link:
+                tail_base_link:
+                  tail_shoulder_link:
+                    tail_arm_link:
+                      tail_forearm_link:
+                        tail_wheel_link:
+                          {}
+                        wt31n_link:
+                          {}
+                      wt901_link:
+                        {}
+                wtgahrs1_link:
+                  {}
+              left_wheel_link:
                 {}
-              front_right:
-                {}
-              gnss_link:
-                {}
-              imu_link:
-                {}
-              rear_left:
-                {}
-              rear_right:
+              right_wheel_link:
                 {}
       Update Interval: 0
       Value: true
@@ -306,25 +332,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 13.325154304504395
+      Distance: 2.3122811317443848
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.22531920671463013
-        Y: 0.24834749102592468
-        Z: 0.4057903587818146
+        X: -1.273398995399475
+        Y: 0.028847018256783485
+        Z: 0.08005727082490921
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5253986716270447
+      Pitch: 0.6003985404968262
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.6003828048706055
+      Yaw: 1.785382628440857
     Saved: ~
 Window Geometry:
   Displays:

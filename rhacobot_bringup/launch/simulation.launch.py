@@ -43,5 +43,5 @@ def generate_launch_description():
         rviz,
         localization,
         teleop,
-        navigation,
+        #navigation,
     ])

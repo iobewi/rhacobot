@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <link name="wtgahrs1_link">
+        <visual>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="wtgahrs1_body_joint" type="fixed">
+        <parent link="body_link" />
+        <child link="wtgahrs1_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </joint>
+
+    <link name="wt901_link">
+        <visual>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="wt901_tail_arm_joint" type="fixed">
+        <parent link="tail_arm_link" />
+        <child link="wt901_link" />
+        <origin xyz="0.17 0.04 -0.008" />
+    </joint>
+
+    <link name="wt31n_link">
+        <visual>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="wt31n_tail_forearm_joint" type="fixed">
+        <parent link="tail_forearm_link" />
+        <child link="wt31n_link" />
+        <origin xyz="0.17 0 0.045" />
+    </joint>
+
+</robot>

@@ -44,21 +44,31 @@ def generate_launch_description():
         ],
     )
 
-    ukf_localization_node = Node(
+    body_localization_node = Node(
         package="robot_localization",
         executable="ukf_node",
-        name="ukf_node",
+        name="body_node",
+        output="screen",
+        respawn=True,
+        parameters=[os.path.join(pkg_rhacobot_localization, "config/ukf.yaml")],
+    )
+    
+    base_localization_node = Node(
+        package="robot_localization",
+        executable="ukf_node",
+        name="base_node",
         output="screen",
         respawn=True,
         parameters=[os.path.join(pkg_rhacobot_localization, "config/ukf.yaml")],
         remappings=[
             ("/odometry/filtered", "/odom"),
-        ],
+        ],     
     )
 
     return LaunchDescription(
         [
-            ukf_localization_node,
+            base_localization_node,
+            body_localization_node,
             #navsat_transform_node,
             map_transform_node,
         ]

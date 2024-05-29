@@ -2,12 +2,12 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rhacobot_urdf">
   
-    <!-- parameters -->
+  <!-- parameters -->
   <xacro:arg name="use_simulation" default="false" />
   <xacro:arg name="use_controllers" default="true" />
 
- <!-- Import Common poperties-->
-    <xacro:include filename="$(find rhacobot_description)/urdf/common_properties.xacro" />
+ <!-- Import Common properties-->
+  <xacro:include filename="$(find rhacobot_description)/urdf/common_properties.xacro" />
 
   <!-- Import Rhacobot mobile base -->
   <xacro:include filename="$(find rhacobot_description)/urdf/mobile_base.xacro" />
@@ -15,18 +15,32 @@
   <!-- Import Rhacobot tail -->
   <xacro:include filename="$(find rhacobot_description)/urdf/tail.xacro" />
 
+  <!-- Import Sensors -->
+  <xacro:include filename="$(find rhacobot_description)/urdf/sensors.xacro" />
+
+  <!-- Import controller manager and hardware interfaces -->
+  <xacro:if value="$(arg use_controllers)">
+    <xacro:include filename="$(find rhacobot_control)/xacro/rhacobot.ros2_control.xacro" />
+  </xacro:if>
+
+  <!-- Import if use simulation -->
   <xacro:if value="$(arg use_simulation)">
     <xacro:include filename="$(find rhacobot_simulation)/xacro/rhacobot.gazebo.xacro" />
   </xacro:if>
 
-  <!-- controller manager and hardware interfaces -->
-  <xacro:if value="$(arg use_controllers)">
-    <xacro:include filename="$(find rhacobot_control)/xacro/rhacobot.ros2_control.xacro" />
-  </xacro:if>
-  
-  <joint name="base_tail_base_joint" type="fixed">
-    <parent link="body_link" />
-    <child link="tail_base_link" />
-    <origin xyz="-0.185 0 -0.0335" rpy="0 0 0" />
-  </joint>
+  <link name="base_link">
+    <visual>
+      <geometry>
+          <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision>
+        <geometry>
+            <box size="0.001 0.001 0.001" />
+        </geometry>
+    </collision>
+    <xacro:sphere_inertia m="0.0001" r="0.001"
+    xyz="0 0 0" rpy="0 0 0" />
+  </link>
+
 </robot>

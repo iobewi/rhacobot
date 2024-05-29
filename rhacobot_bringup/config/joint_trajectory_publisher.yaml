@@ -2,11 +2,11 @@ publisher_joint_trajectory_controller:
   ros__parameters:
 
     controller_name: "tail_controller"
-    wait_sec_between_publish: 6
+    wait_sec_between_publish: 10
 
-    goal_names: ["pos1", "pos2", "pos3", "pos4"]
+    goal_names: ["pos1", "pos2", "pos3"]
     pos1:
-      positions: [0.0, 0.0, 1.0]
+      positions: [0.0, 0.0, 0.0]
       velocities: [0.1, 0.1 , 0.1]
     pos2:
       positions: [1.0, 0.0, 1.0]
@@ -14,9 +14,7 @@ publisher_joint_trajectory_controller:
     pos3:
       positions: [-1.0, 0.0, 1.0]
       velocities: [0.1, 0.1 , 0.1]
-    pos4:
-      positions: [0.0, 0.0, 0.0]
-      velocities: [0.1, 0.1 , 0.1]
+
 
     joints:
       - tail_base_shoulder_joint
