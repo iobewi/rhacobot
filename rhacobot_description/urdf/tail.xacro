@@ -55,7 +55,7 @@
     <joint name="tail_base_shoulder_joint" type="revolute">
         <parent link="tail_base_link" />
         <child link="tail_shoulder_link" />
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <limit effort="100" velocity="100" lower="-${pi/4}" upper="${pi/4}" />
         <axis xyz="0 0 1" />
     </joint>
