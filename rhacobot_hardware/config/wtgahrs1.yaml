@@ -2,27 +2,33 @@ witmotion:
   ros__parameters:
     port: ttyS5
     baud_rate: 115200 # baud
-    polling_interval: 50 # ms
+    polling_interval: 5 # ms
     timeout_ms: 150 # ms
     restart_service_name: /restart_imu/wtgahrs1
     imu_publisher:
       topic_name: /imu/wtgahrs1
-      frame_id: imu
+      frame_id: wtgahrs1_link
       use_native_orientation: true
       measurements:
-        acceleration:
-          enabled: true
-          covariance: [0.0364, 0.0, 0.0, 0.0, 0.0048, 0.0, 0.0, 0.0, 0.0796]
-        angular_velocity:
-          enabled: true
-          covariance: [0.0663, 0.0, 0.0, 0.0, 0.1453, 0.0, 0.0, 0.0, 0.0378]
-        orientation:
-          enabled: true
-          covariance: [0.0479, 0.0, 0.0, 0.0, 0.0207, 0.0, 0.0, 0.0, 0.0041]
+            acceleration:
+                enabled: true
+                covariance: [ 0.0364,    0.0,       0.0,
+                              0.0,         0.0048,  0.0,
+                              0.0,         0.0,       0.0796 ]
+            angular_velocity:
+                enabled: true
+                covariance: [ 0.0663,    0.0,       0.0,
+                              0.0,         0.1453,  0.0,
+                              0.0,         0.0,       0.0378 ]
+            orientation:
+                enabled: true
+                covariance: [ 0.0479,    0.0,       0.0,
+                              0.0,         0.0207,  0.0,
+                              0.0,         0.0,       0.0041 ]
     temperature_publisher:
       enabled: true
       topic_name: /temperature/wtgahrs1
-      frame_id: base_link
+      frame_id: wtgahrs1_link
       from_message: magnetometer # acceleration, angular_vel, orientation, magnetometer
       variance: 0.01829
       coefficient: 1.0 # Linear calibration parameters: coefficient
@@ -30,7 +36,7 @@ witmotion:
     magnetometer_publisher:
       enabled: true
       topic_name: /magnetometer/wtgahrs1
-      frame_id: compass
+      frame_id: wtgahrs1_link
       coefficient: 0.00000001 # Linear calibration parameters: coefficient
       addition: 0.0 # and addendum
       covariance:
@@ -38,7 +44,7 @@ witmotion:
     barometer_publisher:
       enabled: true
       topic_name: /barometer/wtgahrs1
-      frame_id: base_link
+      frame_id: wtgahrs1_link
       variance: 0.001
       coefficient: 1.0 # Linear calibration parameters: coefficient
       addition: 0.0 # and addendum

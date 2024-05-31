@@ -2,27 +2,33 @@ witmotion:
   ros__parameters:
     port: ttyUSB2
     baud_rate: 115200 # baud
-    polling_interval: 50 # ms
+    polling_interval: 5 # ms
     timeout_ms: 150 # ms
     restart_service_name: /restart_imu/wt31n
     imu_publisher:
       topic_name: /imu/wt31n
-      frame_id: imu
+      frame_id: wt31n_link
       use_native_orientation: false
       measurements:
         acceleration:
-          enabled: true
-          covariance: [0.0364, 0.0, 0.0, 0.0, 0.0048, 0.0, 0.0, 0.0, 0.0796]
+            enabled: true
+            covariance: [ 0.0112,    0.0,       0.0,
+                          0.0,         0.0081,  0.0,
+                          0.0,         0.0,       0.0128 ]
         angular_velocity:
-          enabled: false
-          covariance: [0.0663, 0.0, 0.0, 0.0, 0.1453, 0.0, 0.0, 0.0, 0.0378]
+            enabled: false
+            covariance: [ 0.1199,    0.0,       0.0,
+                          0.0,         0.5753,  0.0,
+                          0.0,         0.0,       0.0267 ]
         orientation:
-          enabled: true
-          covariance: [0.0479, 0.0, 0.0, 0.0, 0.0207, 0.0, 0.0, 0.0, 0.0041]
+            enabled: true
+            covariance: [ 0.0457,    0.0,       0.0,
+                          0.0,         0.0655,  0.0,
+                          0.0,         0.0,       0.0      ]
     temperature_publisher:
       enabled: false
       topic_name: /temperature/wt31n
-      frame_id: base_link
+      frame_id: wt31n_link
       from_message: angular_vel # acceleration, angular_vel, orientation, magnetometer
       variance: 0.01829
       coefficient: 1.0 # Linear calibration parameters: coefficient

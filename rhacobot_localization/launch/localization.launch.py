@@ -46,16 +46,16 @@ def generate_launch_description():
 
     body_localization_node = Node(
         package="robot_localization",
-        executable="ukf_node",
+        executable="ekf_node",
         name="body_node",
         output="screen",
         respawn=True,
-        parameters=[os.path.join(pkg_rhacobot_localization, "config/ukf.yaml")],
-    )
+        parameters=[os.path.join(pkg_rhacobot_localization, "config/ukf.yaml")],  
+        )
     
     base_localization_node = Node(
         package="robot_localization",
-        executable="ukf_node",
+        executable="ekf_node",
         name="base_node",
         output="screen",
         respawn=True,

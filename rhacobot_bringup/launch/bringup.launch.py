@@ -13,6 +13,7 @@ def generate_launch_description():
 
     pkg_rhacobot_control = get_package_share_directory("rhacobot_control")
     pkg_rhacobot_description = get_package_share_directory("rhacobot_description")
+    pkg_rhacobot_hardware = get_package_share_directory("rhacobot_hardware")
     pkg_rhacobot_localization = get_package_share_directory("rhacobot_localization")
     pkg_rhacobot_teleop = get_package_share_directory("rhacobot_teleop")
     pkg_rhacobot_navigation = get_package_share_directory("rhacobot_navigation")
@@ -53,11 +54,19 @@ def generate_launch_description():
         )
     )
 
+    imu = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_rhacobot_hardware, "launch", "wit_sensor.launch.py")
+        )
+    )
+
 
     return LaunchDescription(
         [
             robot_state_publisher,
+            imu,
             control,
+            localization,
             rviz,
             teleop,
         ]

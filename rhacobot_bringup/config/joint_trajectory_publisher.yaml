@@ -4,9 +4,9 @@ publisher_joint_trajectory_controller:
     controller_name: "tail_controller"
     wait_sec_between_publish: 10
 
-    goal_names: ["pos1", "pos2", "pos3"]
+    goal_names: ["pos1"]
     pos1:
-      positions: [0.0, 0.0, 0.0]
+      positions: [0.0, 0.2, 0.0]
       velocities: [0.1, 0.1 , 0.1]
     pos2:
       positions: [1.0, 0.0, 1.0]
