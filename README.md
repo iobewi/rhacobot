@@ -2,6 +2,8 @@
 
 This project implements the control of Rhacobot using ROS2. The project is organized into several components to facilitate development and integration.
 
+![Rhacobot model](./doc/media/Rhacobot.jpg)  
+
 ## Directory Structure
 
 - `bringup`: Scripts to launch various robot components.
