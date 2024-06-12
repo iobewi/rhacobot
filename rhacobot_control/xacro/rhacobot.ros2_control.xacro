@@ -8,7 +8,7 @@
   <xacro:include filename="$(find rhacobot_control)/xacro/mobile_base.ros2_control.xacro" />
   <xacro:include filename="$(find rhacobot_control)/xacro/tail.ros2_control.xacro" />
 
-  <xacro:mobile_base_ros2_control ifname="$(arg ifname)" use_simulation="$(arg use_simulation)"/>
-  <xacro:tail_ros2_control ifname="$(arg ifname)" use_simulation="$(arg use_simulation)"/>
+  <xacro:mobile_base_ros2_control prefix="" ifname="$(arg ifname)" use_simulation="$(arg use_simulation)"/>
+  <xacro:tail_ros2_control prefix="" ifname="$(arg ifname)" use_simulation="$(arg use_simulation)"/>
 
 </robot>

@@ -1,109 +1,28 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:macro name="tail_ros2_control" params="ifname use_simulation:=^|false">
+    <xacro:arg name="velocity_alpha" default="0.4" />
+    <xacro:arg name="effort_alpha" default="0.4" />
+    <xacro:arg name="torque_constant" default="2.6" />
 
-        <ros2_control name="tail_ros2_control" type="system">
+    <!-- Import ros2_control -->
+    <xacro:include filename="$(find myactuator_rmd_description)/urdf/myactuator_rmd.ros2_control.xacro" />
+    <xacro:macro name="tail_ros2_control" params="prefix ifname use_simulation:=^|false">
 
-            <hardware>
-                <xacro:if value="${use_simulation}">
-                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
-                </xacro:if>
-                <xacro:unless value="${use_simulation}">
-                    <plugin>myactuator_hardware_interface/MyActuatorHardwareInterface</plugin>
-                    <param name="ifname">${ifname}</param>
-                    <param name="timeout">1000</param>
-                    <param name="max_speed">5000</param>
-                </xacro:unless>
-            </hardware>
+    <!-- ros2_control configuration -->
+    <xacro:myactuator_rmd_ros2_control name="${prefix}tail_base_shoulder_ros2_control" joint_name="${prefix}tail_base_shoulder_joint" simulation="${use_simulation}"
+                                       ifname="${ifname}" actuator_id="3"
+                                       velocity_alpha="$(arg velocity_alpha)" effort_alpha="$(arg effort_alpha)"
+                                       torque_constant="$(arg torque_constant)"/>
 
-            <joint name="tail_base_shoulder_joint">
-                <xacro:if value="${use_simulation}">
-                    <command_interface name="position">
-                        <param name="min">-1</param>
-                        <param name="max">1</param>
-                    </command_interface>
-                    <state_interface name="position" />
-                    <state_interface name="velocity" />
-                </xacro:if>
-                <xacro:unless value="${use_simulation}">
-                    <param name="can_id">3</param>
-                    <param name="reducer_ratio">6.2</param>
-                    <param name="speed_constant">30</param>
-                    <param name="torque_constant">0.29</param>
-                    <param name="rotor_inertia">3400</param>
-                    <param name="position_acceleration">20000</param>
-                    <param name="position_deceleration">20000</param>
-                    <param name="velocity_acceleration">20000</param>
-                    <param name="velocity_deceleration">20000</param>
-                    <param name="kp_current">100</param>
-                    <param name="ki_current">100</param>
-                    <param name="kp_speed">100</param>
-                    <param name="ki_speed">50</param>
-                    <param name="kp_position">100</param>
-                    <param name="ki_position">0.0</param>
-                    <param name="initial_angle_offset">0.0</param>
-                </xacro:unless>
-            </joint>
+    <xacro:myactuator_rmd_ros2_control name="${prefix}shoulder_arm_ros2_control" joint_name="${prefix}shoulder_arm_joint" simulation="${use_simulation}"
+                                       ifname="${ifname}" actuator_id="4"
+                                       velocity_alpha="$(arg velocity_alpha)" effort_alpha="$(arg effort_alpha)"
+                                       torque_constant="$(arg torque_constant)"/>
 
-            <joint name="shoulder_arm_joint">
-                <xacro:if value="${use_simulation}">
-                    <command_interface name="position">
-                        <param name="min">-1</param>
-                        <param name="max">1</param>
-                    </command_interface>
-                    <state_interface name="position" />
-                    <state_interface name="velocity" />
-                </xacro:if>
-                <xacro:unless value="${use_simulation}">
-                    <param name="can_id">4</param>
-                    <param name="reducer_ratio">6.2</param>
-                    <param name="speed_constant">30</param>
-                    <param name="torque_constant">0.29</param>
-                    <param name="rotor_inertia">3400</param>
-                    <param name="position_acceleration">20000</param>
-                    <param name="position_deceleration">20000</param>
-                    <param name="velocity_acceleration">20000</param>
-                    <param name="velocity_deceleration">20000</param>
-                    <param name="kp_current">100</param>
-                    <param name="ki_current">100</param>
-                    <param name="kp_speed">100</param>
-                    <param name="ki_speed">50</param>
-                    <param name="kp_position">100</param>
-                    <param name="ki_position">0.0</param>
-                    <param name="initial_angle_offset">0.0</param>
-                </xacro:unless>
-            </joint>
-
-            <joint name="arm_forearm_joint">
-                <xacro:if value="${use_simulation}">
-                    <command_interface name="position">
-                        <param name="min">-1</param>
-                        <param name="max">1</param>
-                    </command_interface>
-                    <state_interface name="position" />
-                    <state_interface name="velocity" />
-                </xacro:if>
-                <xacro:unless value="${use_simulation}">
-                    <param name="can_id">5</param>
-                    <param name="reducer_ratio">6.2</param>
-                    <param name="speed_constant">30</param>
-                    <param name="torque_constant">0.29</param>
-                    <param name="rotor_inertia">3400</param>
-                    <param name="position_acceleration">20000</param>
-                    <param name="position_deceleration">20000</param>
-                    <param name="velocity_acceleration">20000</param>
-                    <param name="velocity_deceleration">20000</param>
-                    <param name="kp_current">100</param>
-                    <param name="ki_current">100</param>
-                    <param name="kp_speed">100</param>
-                    <param name="ki_speed">50</param>
-                    <param name="kp_position">100</param>
-                    <param name="ki_position">0.0</param>
-                    <param name="initial_angle_offset">0.0</param>
-                </xacro:unless>
-            </joint>
-
-        </ros2_control>
+    <xacro:myactuator_rmd_ros2_control name="${prefix}arm_forearm_ros2_control" joint_name="${prefix}arm_forearm_joint" simulation="${use_simulation}"
+                                       ifname="${ifname}" actuator_id="5"
+                                       velocity_alpha="$(arg velocity_alpha)" effort_alpha="$(arg effort_alpha)"
+                                       torque_constant="$(arg torque_constant)"/>
     </xacro:macro>
 </robot>

@@ -8,12 +8,13 @@
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
-  <exec_depend>diff_drive_controller</exec_depend>
-  <exec_depend>joint_trajectory_controller</exec_depend>
-  <exec_depend>joint_state_broadcaster</exec_depend>
-  <exec_depend>controller_manager</exec_depend>
-  
-  <exec_depend>myactuator_hardware_interface</exec_depend>
+  <depend>diff_drive_controller</depend>
+  <depend>joint_trajectory_controller</depend>
+  <depend>joint_state_broadcaster</depend>
+  <depend>controller_manager</depend>
+  <depend>myactuator_rmd_ros</depend>
+
+  <depend></depend>
 
   <export>
     <build_type>ament_cmake</build_type>
